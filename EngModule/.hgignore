@@ -1,0 +1,10 @@
+
+syntax: glob
+protected/runtime/application.log
+protected/runtime/application.log.orig
+.buildpath
+.project
+.settings/org.eclipse.php.core.prefs
+.settings/org.eclipse.wst.common.project.facet.core.xml
+assets/*
+protected/uploads/*

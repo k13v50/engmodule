@@ -1,0 +1,78 @@
+2014/11/15 17:36:28 [warning] [application] Failed to set unsafe attribute "_verifyPassword" of "CitizenUser".
+in E:\xampp\htdocs\EngModule\protected\controllers\CitizenUserController.php (110)
+in E:\xampp\htdocs\EngModule\index.php (14)
+2014/11/15 17:36:28 [warning] [application] Failed to set unsafe attribute "tin" of "CitizenUser".
+in E:\xampp\htdocs\EngModule\protected\controllers\CitizenUserController.php (110)
+in E:\xampp\htdocs\EngModule\index.php (14)
+2014/11/15 17:36:28 [warning] [application] Failed to set unsafe attribute "verifyCode" of "CitizenUser".
+in E:\xampp\htdocs\EngModule\protected\controllers\CitizenUserController.php (110)
+in E:\xampp\htdocs\EngModule\index.php (14)
+2014/11/15 17:36:28 [error] [php] Missing argument 1 for CVarDumper::dumpAsString(), called in E:\xampp\htdocs\EngModule\protected\controllers\CitizenUserController.php on line 114 and defined (E:\xampp\htdocs\yii\framework\utils\CVarDumper.php:54)
+Stack trace:
+#0 E:\xampp\htdocs\yii\framework\web\CController.php(308): CInlineAction->runWithParams()
+#1 E:\xampp\htdocs\yii\framework\web\filters\CFilterChain.php(133): CitizenUserController->runAction()
+#2 E:\xampp\htdocs\yii\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#3 E:\xampp\htdocs\yii\framework\web\CController.php(1145): CAccessControlFilter->filter()
+#4 E:\xampp\htdocs\yii\framework\web\filters\CInlineFilter.php(58): CitizenUserController->filterAccessControl()
+#5 E:\xampp\htdocs\yii\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter()
+#6 E:\xampp\htdocs\yii\framework\web\CController.php(291): CFilterChain->run()
+#7 E:\xampp\htdocs\yii\framework\web\CController.php(265): CitizenUserController->runActionWithFilters()
+#8 E:\xampp\htdocs\yii\framework\web\CWebApplication.php(282): CitizenUserController->run()
+#9 E:\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#10 E:\xampp\htdocs\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#11 E:\xampp\htdocs\EngModule\index.php(14): CWebApplication->run()
+REQUEST_URI=/EngModule/index.php?r=citizenUser/create
+in E:\xampp\htdocs\EngModule\protected\controllers\CitizenUserController.php (114)
+in E:\xampp\htdocs\EngModule\index.php (14)
+2014/11/15 17:36:44 [warning] [application] Failed to set unsafe attribute "_verifyPassword" of "CitizenUser".
+in E:\xampp\htdocs\EngModule\protected\controllers\CitizenUserController.php (110)
+in E:\xampp\htdocs\EngModule\index.php (14)
+2014/11/15 17:36:44 [warning] [application] Failed to set unsafe attribute "tin" of "CitizenUser".
+in E:\xampp\htdocs\EngModule\protected\controllers\CitizenUserController.php (110)
+in E:\xampp\htdocs\EngModule\index.php (14)
+2014/11/15 17:36:44 [warning] [application] Failed to set unsafe attribute "verifyCode" of "CitizenUser".
+in E:\xampp\htdocs\EngModule\protected\controllers\CitizenUserController.php (110)
+in E:\xampp\htdocs\EngModule\index.php (14)
+2014/11/15 17:36:44 [info] [aa111] 
+in E:\xampp\htdocs\EngModule\protected\controllers\CitizenUserController.php (114)
+in E:\xampp\htdocs\EngModule\index.php (14)
+2014/11/15 17:36:44 [info] [] 
+in E:\xampp\htdocs\EngModule\protected\controllers\CitizenUserController.php (115)
+in E:\xampp\htdocs\EngModule\index.php (14)
+2014/11/15 17:36:45 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "password not match".' in E:\xampp\htdocs\yii\framework\web\CController.php:483
+Stack trace:
+#0 E:\xampp\htdocs\yii\framework\web\CController.php(270): CController->missingAction('password not ma...')
+#1 E:\xampp\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('password not ma...')
+#2 E:\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/password n...')
+#3 E:\xampp\htdocs\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 E:\xampp\htdocs\EngModule\index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/EngModule/index.php?r=site/password%20not%20match
+HTTP_REFERER=http://localhost/EngModule/index.php?r=citizenUser/create
+---
+2014/11/15 17:37:15 [warning] [application] Failed to set unsafe attribute "_verifyPassword" of "CitizenUser".
+in E:\xampp\htdocs\EngModule\protected\controllers\CitizenUserController.php (110)
+in E:\xampp\htdocs\EngModule\index.php (14)
+2014/11/15 17:37:15 [warning] [application] Failed to set unsafe attribute "tin" of "CitizenUser".
+in E:\xampp\htdocs\EngModule\protected\controllers\CitizenUserController.php (110)
+in E:\xampp\htdocs\EngModule\index.php (14)
+2014/11/15 17:37:15 [warning] [application] Failed to set unsafe attribute "verifyCode" of "CitizenUser".
+in E:\xampp\htdocs\EngModule\protected\controllers\CitizenUserController.php (110)
+in E:\xampp\htdocs\EngModule\index.php (14)
+2014/11/15 17:37:15 [info] [aa111] 
+in E:\xampp\htdocs\EngModule\protected\controllers\CitizenUserController.php (114)
+in E:\xampp\htdocs\EngModule\index.php (14)
+2014/11/15 17:37:15 [info] [] 
+in E:\xampp\htdocs\EngModule\protected\controllers\CitizenUserController.php (115)
+in E:\xampp\htdocs\EngModule\index.php (14)
+2014/11/15 17:37:15 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "password not match".' in E:\xampp\htdocs\yii\framework\web\CController.php:483
+Stack trace:
+#0 E:\xampp\htdocs\yii\framework\web\CController.php(270): CController->missingAction('password not ma...')
+#1 E:\xampp\htdocs\yii\framework\web\CWebApplication.php(282): CController->run('password not ma...')
+#2 E:\xampp\htdocs\yii\framework\web\CWebApplication.php(141): CWebApplication->runController('site/password n...')
+#3 E:\xampp\htdocs\yii\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 E:\xampp\htdocs\EngModule\index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/EngModule/index.php?r=site/password%20not%20match
+HTTP_REFERER=http://localhost/EngModule/index.php?r=citizenUser/create
+---
