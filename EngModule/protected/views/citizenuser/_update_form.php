@@ -26,19 +26,19 @@
 	<h3> Name: </h3>
 	<div class="row">
 		<?php echo $form->labelEx($model,'firstName'); ?>
-		<?php echo $form->textField($model,'firstName',array('size'=>30,'maxlength'=>25)); ?>
+		<?php echo $form->textField($model,'firstName',array('size'=>25,'maxlength'=>25)); ?>
 		<?php echo $form->error($model,'firstName'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'middleName'); ?>
-		<?php echo $form->textField($model,'middleName',array('size'=>30,'maxlength'=>20)); ?>
+		<?php echo $form->textField($model,'middleName',array('size'=>25,'maxlength'=>20)); ?>
 		<?php echo $form->error($model,'middleName'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'lastName'); ?>
-		<?php echo $form->textField($model,'lastName',array('size'=>30,'maxlength'=>25)); ?>
+		<?php echo $form->textField($model,'lastName',array('size'=>25,'maxlength'=>25)); ?>
 		<?php echo $form->error($model,'lastName'); ?>
 	</div>
 
@@ -46,25 +46,25 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'addr_num'); ?>
-		<?php echo $form->textField($model,'addr_num',array('size'=>30,'maxlength'=>25)); ?>
+		<?php echo $form->textField($model,'addr_num',array('size'=>20,'maxlength'=>20)); ?>
 		<?php echo $form->error($model,'addr_num'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'addr_street'); ?>
-		<?php echo $form->textField($model,'addr_street',array('size'=>30,'maxlength'=>30)); ?>
+		<?php echo $form->textField($model,'addr_street',array('size'=>30,'maxlength'=>50)); ?>
 		<?php echo $form->error($model,'addr_street'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'addr_brgy'); ?>
-		<?php echo $form->textField($model,'addr_brgy',array('size'=>30,'maxlength'=>30)); ?>
+		<?php echo $form->textField($model,'addr_brgy',array('size'=>30,'maxlength'=>50)); ?>
 		<?php echo $form->error($model,'addr_brgy'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'addr_city_mun'); ?>
-		<?php echo $form->textField($model,'addr_city_mun',array('size'=>30,'maxlength'=>30)); ?>
+		<?php echo $form->textField($model,'addr_city_mun',array('size'=>30,'maxlength'=>50)); ?>
 		<?php echo $form->error($model,'addr_city_mun'); ?>
 	</div>
 
@@ -72,19 +72,19 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'employment_info'); ?>
-		<?php echo $form->textField($model,'employment_info',array('size'=>60,'maxlength'=>75)); ?>
+		<?php echo $form->textField($model,'employment_info',array('size'=>50,'maxlength'=>75)); ?>
 		<?php echo $form->error($model,'employment_info'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'education'); ?>
-		<?php echo $form->textField($model,'education',array('size'=>60,'maxlength'=>75)); ?>
+		<?php echo $form->textField($model,'education',array('size'=>50,'maxlength'=>75)); ?>
 		<?php echo $form->error($model,'education'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'email_add'); ?>
-		<?php echo $form->textField($model,'email_add',array('size'=>20,'maxlength'=>30)); ?>
+		<?php echo $form->textField($model,'email_add',array('size'=>50,'maxlength'=>50)); ?>
 		<?php echo $form->error($model,'email_add'); ?>
 	</div>
 

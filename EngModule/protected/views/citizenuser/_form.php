@@ -24,19 +24,19 @@
 	<h2>User Login Credentials</h2>
 	<div class="row">
 		<?php echo $form->labelEx($model,'username'); ?>
-		<?php echo $form->textField($model,'username',array('size'=>30,'maxlength'=>20)); ?>
+		<?php echo $form->textField($model,'username',array('size'=>30,'maxlength'=>15,'minlength'=>7)); ?>
 		<?php echo $form->error($model,'username'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'password'); ?>
-		<?php echo $form->passwordField($model,'password',array('size'=>30,'maxlength'=>30)); ?>
+		<?php echo $form->passwordField($model,'password',array('size'=>30,'maxlength'=>15,'minlength'=>7)); ?>
 		<?php echo $form->error($model,'password'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'_verifyPassword'); ?>
-		<?php echo $form->passwordField($model,'_verifyPassword',array('size'=>30,'maxlength'=>30)); ?>
+		<?php echo $form->passwordField($model,'_verifyPassword',array('size'=>30,'maxlength'=>15,'minlength'=>7)); ?>
 		<?php echo $form->error($model,'_verifyPassword'); ?>
 	</div>
 
@@ -51,7 +51,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'middleName'); ?>
-		<?php echo $form->textField($model,'middleName',array('size'=>25,'maxlength'=>25)); ?>
+		<?php echo $form->textField($model,'middleName',array('size'=>25,'maxlength'=>20)); ?>
 		<?php echo $form->error($model,'middleName'); ?>
 	</div>
 
@@ -71,19 +71,19 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'addr_street'); ?>
-		<?php echo $form->textField($model,'addr_street',array('size'=>30,'maxlength'=>30)); ?>
+		<?php echo $form->textField($model,'addr_street',array('size'=>30,'maxlength'=>50)); ?>
 		<?php echo $form->error($model,'addr_street'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'addr_brgy'); ?>
-		<?php echo $form->textField($model,'addr_brgy',array('size'=>30,'maxlength'=>30)); ?>
+		<?php echo $form->textField($model,'addr_brgy',array('size'=>30,'maxlength'=>50)); ?>
 		<?php echo $form->error($model,'addr_brgy'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'addr_city_mun'); ?>
-		<?php echo $form->textField($model,'addr_city_mun',array('size'=>30,'maxlength'=>30)); ?>
+		<?php echo $form->textField($model,'addr_city_mun',array('size'=>30,'maxlength'=>50)); ?>
 		<?php echo $form->error($model,'addr_city_mun'); ?>
 	</div>
 
@@ -91,25 +91,25 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'tin'); ?>
-		<?php echo $form->textField($model,'tin'); ?>
+		<?php echo $form->textField($model,'tin',array('size'=>30,'maxlength'=>15,'minlength'=>12)); ?>
 		<?php echo $form->error($model,'tin'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'employment_info'); ?>
-		<?php echo $form->textField($model,'employment_info',array('size'=>60,'maxlength'=>75)); ?>
+		<?php echo $form->textField($model,'employment_info',array('size'=>50,'maxlength'=>75)); ?>
 		<?php echo $form->error($model,'employment_info'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'education'); ?>
-		<?php echo $form->textField($model,'education',array('size'=>60,'maxlength'=>75)); ?>
+		<?php echo $form->textField($model,'education',array('size'=>50,'maxlength'=>75)); ?>
 		<?php echo $form->error($model,'education'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'email_add'); ?>
-		<?php echo $form->textField($model,'email_add',array('size'=>60,'maxlength'=>100)); ?>
+		<?php echo $form->textField($model,'email_add',array('size'=>50,'maxlength'=>50)); ?>
 		<?php echo $form->error($model,'email_add'); ?>
 	</div>
 

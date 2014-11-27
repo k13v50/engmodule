@@ -68,6 +68,9 @@ class BuildingPermit extends UniqidActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, owner_fname, request_date, owner_tin, owner_phone, owner_mname, owner_lname, econ_act, ownership_form, work_scope, tax_dec_num, occupation_type, addr_num, addr_street, addr_brgy, addr_city_mun, bldg_lot_num, bldg_block_num, bldg_tct_num, const_street, const_brgy, const_city_mun, permit_num, app_num, app_status, total_const_load, total_trans_cap, total_gen_cap, update_date, updated_by, approved_by, approved_by_position, requested_by, approval_date', 'safe', 'on'=>'search'),
+			array('owner_fname,owner_mname,owner_lname,owner_tin,owner_phone,econ_act,ownership_form,work_scope,tax_dec_num,occupation_type,addr_num,addr_street,addr_brgy,addr_city_mun,bldg_lot_num,bldg_block_num,bldg_tct_num,const_street,const_brgy,const_city_mun,total_const_load,total_trans_cap,total_gen_cap','required','on'=>'create'),
+			array('owner_fname,owner_mname,owner_lname,owner_tin,owner_phone,econ_act,ownership_form,work_scope,tax_dec_num,occupation_type,addr_num,addr_street,addr_brgy,addr_city_mun,bldg_lot_num,bldg_block_num,bldg_tct_num,const_street,const_brgy,const_city_mun,total_const_load,total_trans_cap,total_gen_cap','required','on'=>'update'),
+			array('remarks', 'required' , 'on'=>'approve_reject'),
 		);
 	}
 

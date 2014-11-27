@@ -26,38 +26,65 @@ class PlumbingPermitController extends Controller
 	 */
 	public function accessRules()
 	{
-	if(Yii::app()->user->isGuest == false){
+		if(Yii::app()->user->isGuest == false){
 			$user_type = Yii::app()->session['user_type'];
 			if($user_type == 0){
 				return array(
 						array('allow',  // allow all users to perform 'index' and 'view' actions
-								'actions'=>array('view','create','update','generatepdf'),
-								'users'=>array('*'),
+								'actions'=>array('index','view','update','generatepdf'),
+								'users'=>array('@'),
+						),
+						array('deny',  // deny all users
+								'users'=>array('@'),
 						),
 				);
-			}else{
+			} else if($user_type == UserTypeEnum::ADMIN){
 				return array(
-					array('allow',  // allow all users to perform 'index' and 'view' actions
-						'actions'=>array('index','view','generatepdf','approve_permit','reject_permit','admin'),
-						'users'=>array('*'),
-					),
 					array('allow', // allow authenticated user to perform 'create' and 'update' actions
-						'actions'=>array('create','update'),
+						'actions'=>array('index','captcha','view','update','admin','delete','generatepdf','approve_permit','reject_permit'),
 						'users'=>array('@'),
-					),
-					array('allow', // allow admin user to perform 'admin' and 'delete' actions
-						'actions'=>array('admin','delete'),
-						'users'=>array('admin'),
 					),
 					array('deny',  // deny all users
 						'users'=>array('*'),
 					),
 				);
+			}else if($user_type == UserTypeEnum::USER_MAINTENANCE){
+				return array(
+						array('deny', // allow authenticated user to perform 'create' and 'update' actions
+								'actions'=>array('captcha','index','view','create','update','admin','delete','change_password'),
+								'users'=>array('@'),
+						),
+						array('deny',  // deny all users
+								'users'=>array('*'),
+						),
+				);
+			}else if($user_type == UserTypeEnum::PERMIT_MAINTENANCE){
+				return array(
+						array('allow', // allow authenticated user to perform 'create' and 'update' actions
+								'actions'=>array('index','captcha','view','update','admin','delete','generatepdf','approve_permit','reject_permit'),
+								'users'=>array('@'),
+						),
+						array('deny',  // deny all users
+								'actions'=>array('captcha','create','admin','delete'),
+								'users'=>array('*'),
+						),
+				);
+			}else{
+				return array(
+						array('allow', // allow authenticated user to perform 'create' and 'update' actions
+								'actions'=>array('index','view','generatepdf'),
+								'users'=>array('@'),
+						),
+						array('deny', // allow admin user to perform 'admin' and 'delete' actions
+								'actions'=>array('create','admin','delete'),
+								'users'=>array('*'),
+						),
+				);
 			}
 		}else{
 			return array(
 					array('deny',
-						'actions'=>array('index','create','update','index','view','generatepdf','approve_permit'),
+						'actions'=>array('index','create','update','index','view'),
 						'users'=>array('*'),
 					),
 			);

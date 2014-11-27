@@ -8,3 +8,4 @@ protected/runtime/application.log.orig
 .settings/org.eclipse.wst.common.project.facet.core.xml
 assets/*
 protected/uploads/*
+uploads/

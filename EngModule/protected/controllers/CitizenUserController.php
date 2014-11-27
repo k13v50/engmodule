@@ -176,7 +176,7 @@ class CitizenUserController extends Controller
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
+		$model->scenario='update';
 		if(isset($_POST['CitizenUser']))
 		{
 			$model->attributes=$_POST['CitizenUser'];

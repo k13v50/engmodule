@@ -37,7 +37,7 @@ $this->menu=array(
 		'employment_info',
 		array(
 			'name'=>'create_dt',
-			'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:ss a',$model->create_dt) ,
+			'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy',$model->create_dt) ,
 		),
 	),
 )); ?>

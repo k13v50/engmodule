@@ -163,7 +163,7 @@
 		<?php echo $form->error($model,'total_gen_cap'); ?>
 	</div>
 
-	<div class="row buttons" align="center">
+	<div class="row buttons">
 		<?php echo CHtml::submitButton('Create'); ?>
 	</div>
 

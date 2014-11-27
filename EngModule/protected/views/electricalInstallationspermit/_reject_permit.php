@@ -12,13 +12,15 @@
 	// controller action is handling ajax validation correctly.
 	// There is a call to performAjaxValidation() commented in generated controller code.
 	// See class documentation of CActiveForm for details on this.
-
+	'enableAjaxValidation'=>false,
+	'enableClientValidation'=>true,
+	'clientOptions'=>array(
+			'validateOnSubmit'=>true,
+	),
 )); ?>
 
-
-<div class="row"><!-- added hidden field to trigger the approval on submit -->
-	<?php echo $form->hiddenField($model,'app_status',array('visible'=>false)); ?>
-</div>
+<br/>
+<?php echo $form->errorSummary($model); ?>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
@@ -49,31 +51,34 @@
 		'total_trans_cap',
 		'total_gen_cap',
 		'requested_by',
-		array(
+		/* array(
 				'name'=>'request_date',
-				'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:ss a',$model->request_date),
-		),
+				'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:mm:ss a',$model->request_date),
+		), */
+		'request_date',
 		'updated_by',
-		array(
+		/* array(
 				'name'=>'update_date',
-				'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:ss a',$model->update_date),
-		),
+				'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:mm:ss a',$model->update_date),
+		), */
+		'update_date',
 		'approved_by',
 		'approved_by_position',
-		array(
+		/* array(
 				'name'=>'approval_date',
-				'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:ss a',$model->approval_date),
-		),
+				'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:mm:ss a',$model->approval_date),
+		), */
+		'approval_date',
 	),
 )); ?>
 
 <div class="row buttons">
 	<?php echo $form->labelEx($model,'remarks'); ?>
-	<?php echo $form->textField($model,'remarks',array('size'=>115,'maxlength'=>1000)); ?>
+	<?php echo $form->textField($model,'remarks',array('size'=>115,'maxlength'=>1000,'minlength'=>1)); ?>
 	<?php echo $form->error($model,'remarks'); ?>
 	<br/>
 	<br/>
-	<div style="text-align: center"><?php echo CHtml::submitButton('Reject'); ?></div>
+	<div><?php echo CHtml::submitButton('Reject'); ?></div>
 </div>
 
 <?php $this->endWidget(); ?>

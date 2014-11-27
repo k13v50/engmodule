@@ -59,21 +59,24 @@ $this->menu=array(
 		'work_scope',
 		'tax_dec_num',
 		'requested_by',
-		array(
+		/* array(
 				'name'=>'request_date',
-				'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:ss a',$model->request_date),
-		),
+				'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:mm:ss a',$model->request_date),
+		), */
+		'request_date',
 		'updated_by',
-		array(
+		/* array(
 				'name'=>'update_date',
-				'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:ss a',$model->update_date),
-		),
+				'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:mm:ss a',$model->update_date),
+		), */
+		'update_date',
 		'approved_by',
 		'approved_by_position',
-		array(
+		/* array(
 				'name'=>'approval_date',
-				'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:ss a',$model->approval_date),
-		),
+				'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:mm:ss a',$model->approval_date),
+		), */
+		'approval_date',
 		'remarks',
 	),
 )); ?>

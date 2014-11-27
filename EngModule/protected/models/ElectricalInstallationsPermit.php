@@ -57,8 +57,8 @@ class ElectricalInstallationsPermit extends UniqidActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('owner_tin, app_status', 'numerical', 'integerOnly'=>true),
-			array('id, app_num, bldg_permit_num', 'length', 'max'=>64),
+			array('app_status', 'numerical', 'integerOnly'=>true),
+			array('id, app_num, bldg_permit_num, owner_tin', 'length', 'max'=>64),
 			array('owner_fname, owner_mname, owner_lname, owner_phone, addr_num, addr_street, addr_brgy, addr_city_mun, loc_lot_num, loc_block_num, loc_tct_num, tax_dec_num, const_street, const_brgy, const_city_mun, requested_by, updated_by', 'length', 'max'=>25),
 			array('econ_act, ownership_form', 'length', 'max'=>100),
 			array('work_scope', 'length', 'max'=>200),
@@ -68,6 +68,7 @@ class ElectricalInstallationsPermit extends UniqidActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, app_num, permit_num, owner_fname, owner_mname, owner_lname, owner_tin, owner_phone, econ_act, ownership_form, work_scope, occupation_type, total_const_load, total_trans_cap, total_gen_cap, addr_num, addr_street, addr_brgy, addr_city_mun, loc_lot_num, loc_block_num, loc_tct_num, tax_dec_num, const_street, const_brgy, const_city_mun, status, request_date, requested_by, update_date, updated_by, approved_by, approved_by_position, approval_date', 'safe', 'on'=>'search'),
+			array('owner_fname, owner_mname, owner_lname, owner_tin, owner_phone, econ_act, ownership_form, work_scope, occupation_type, total_const_load, total_trans_cap, total_gen_cap, addr_num, addr_street, addr_brgy, addr_city_mun, loc_lot_num, loc_block_num, loc_tct_num, tax_dec_num, const_street, const_brgy, const_city_mun', 'required', 'on'=>'update'),
 		);
 	}
 
@@ -172,7 +173,7 @@ class ElectricalInstallationsPermit extends UniqidActiveRecord
 		$criteria->compare('const_street',$this->const_street,true);
 		$criteria->compare('const_brgy',$this->const_brgy,true);
 		$criteria->compare('const_city_mun',$this->const_city_mun,true);
-		$criteria->compare('app_status',$this->status);
+		$criteria->compare('app_status',$this->app_status);
 		$criteria->compare('request_date',$this->request_date,true);
 		$criteria->compare('requested_by',$this->requested_by,true);
 		$criteria->compare('update_date',$this->update_date,true);

@@ -52,17 +52,45 @@ if(Yii::app()->session['user_type'] == 0) {
 		'employment_info',
 		array(
 			'name'=>'create_dt',
-			'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:ss a',$model->create_dt) ,
+			'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy',$model->create_dt) ,
 		),
 		'updated_by',
 		array(
 			'name'=>'update_dt',
-			'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:ss a',$model->update_dt) ,
+			'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy',$model->update_dt) ,
 		),
 		'approved_by',
 		array(
 			'name'=>'approval_dt',
-			'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:ss a',$model->approval_dt) ,
+			'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy',$model->approval_dt) ,
 		),
 	),
 )); ?>
+
+<?php
+
+$criteria=new CDbCriteria(array(
+		'order'=>'stamp DESC',
+));
+
+$criteria->addCondition("model_id = '".$model->id."' and model='CitizenUser'");
+
+$this->widget('zii.widgets.grid.CGridView', array(
+    'id'=>'title-grid',
+    'dataProvider'=>new CActiveDataProvider('AuditTrail', array(
+    	'criteria'=>$criteria,
+        'pagination'=>array(
+            'pageSize'=>20,
+        )
+    )),
+    'columns'=>array(
+        'action',
+    	'field',
+        'old_value',
+        'new_value',
+    	'stamp',
+    ),
+));
+?>
+
+

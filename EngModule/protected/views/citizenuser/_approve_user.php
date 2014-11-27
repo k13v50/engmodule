@@ -15,7 +15,7 @@
 
 )); ?>
 
-
+<br/>
 <div class="row"><!-- added hidden field to trigger the approval on submit -->
 	<?php echo $form->hiddenField($model,'app_status',array('visible'=>false)); ?>
 </div>

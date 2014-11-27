@@ -24,19 +24,19 @@
 	<h2>User Login Credentials</h2>
 	<div class="row">
 		<?php echo $form->labelEx($model,'username'); ?>
-		<?php echo $form->textField($model,'username',array('size'=>30,'maxlength'=>20)); ?>
+		<?php echo $form->textField($model,'username',array('size'=>30,'maxlength'=>15,'minlength'=>7)); ?>
 		<?php echo $form->error($model,'username'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'password'); ?>
-		<?php echo $form->passwordField($model,'password',array('size'=>30,'maxlength'=>30)); ?>
+		<?php echo $form->passwordField($model,'password',array('size'=>30,'maxlength'=>15,'minlength'=>7)); ?>
 		<?php echo $form->error($model,'password'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'_verifyPassword'); ?>
-		<?php echo $form->passwordField($model,'_verifyPassword',array('size'=>30,'maxlength'=>30)); ?>
+		<?php echo $form->passwordField($model,'_verifyPassword',array('size'=>30,'maxlength'=>15,'minlength'=>7)); ?>
 		<?php echo $form->error($model,'_verifyPassword'); ?>
 	</div>
 
@@ -56,7 +56,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'middleName'); ?>
-		<?php echo $form->textField($model,'middleName',array('size'=>25,'maxlength'=>25)); ?>
+		<?php echo $form->textField($model,'middleName',array('size'=>25,'maxlength'=>20)); ?>
 		<?php echo $form->error($model,'middleName'); ?>
 	</div>
 
@@ -83,13 +83,13 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'tin'); ?>
-		<?php echo $form->textField($model,'tin',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->textField($model,'tin',array('size'=>30,'minlength'=>12,'maxlength'=>15)); ?>
 		<?php echo $form->error($model,'tin'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'civil_status'); ?>
-		<?php echo $form->textField($model,'civil_status',array('size'=>50,'maxlength'=>50)); ?>
+		<?php echo $form->textField($model,'civil_status',array('size'=>30,'maxlength'=>50)); ?>
 		<?php echo $form->error($model,'civil_status'); ?>
 	</div>
 

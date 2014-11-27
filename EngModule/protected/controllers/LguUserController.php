@@ -28,25 +28,49 @@ class LguUserController extends Controller
 	{
 		if(Yii::app()->user->isGuest == false && Yii::app()->session['user_type']!= 0){
 			$user_type = Yii::app()->session['user_type'];
-			//if($user_type == 0){
-			return array(
-				array('allow',  // allow all users to perform 'index' and 'view' actions
-					'actions'=>array('captcha'),
-					'users'=>array('*'),
-				),
-				array('allow', // allow authenticated user to perform 'create' and 'update' actions
-					'actions'=>array('index','view','create','update','admin','delete','change_password'),
-					'users'=>array('@'),
-				),
-				array('allow', // allow admin user to perform 'admin' and 'delete' actions
-					'actions'=>array(),
-					'users'=>array('admin'),
-				),
-				array('deny',  // deny all users
-					'users'=>array('*'),
-				),
-			);
-			//}
+			if($user_type == UserTypeEnum::ADMIN){
+				return array(
+					array('allow', // allow authenticated user to perform 'create' and 'update' actions
+						'actions'=>array('index','captcha','view','create','update','admin','delete','change_password'),
+						'users'=>array('@'),
+					),
+					array('deny',  // deny all users
+						'users'=>array('*'),
+					),
+				);
+			}else if($user_type == UserTypeEnum::USER_MAINTENANCE){
+				return array(
+						array('allow', // allow authenticated user to perform 'create' and 'update' actions
+								'actions'=>array('captcha','index','view','create','update','admin','delete','change_password'),
+								'users'=>array('@'),
+						),
+						array('deny',  // deny all users
+								'users'=>array('*'),
+						),
+				);
+			}else if($user_type == UserTypeEnum::PERMIT_MAINTENANCE){
+				return array(
+						array('allow', // allow authenticated user to perform 'create' and 'update' actions
+								'actions'=>array('index','view','update','change_password'),
+								'users'=>array('@'),
+						),
+						array('deny',  // deny all users
+								'actions'=>array('captcha','create','admin','delete'),
+								'users'=>array('*'),
+						),
+				);
+			}else{
+				return array(
+						array('allow', // allow authenticated user to perform 'create' and 'update' actions
+								'actions'=>array('index','view','update','change_password'),
+								'users'=>array('@'),
+						),
+						array('deny', // allow admin user to perform 'admin' and 'delete' actions
+								'actions'=>array('create','admin','delete'),
+								'users'=>array('*'),
+						),
+				);
+			}
 		}else{
 			return array(
 					array ('deny',  // deny all users
@@ -74,6 +98,7 @@ class LguUserController extends Controller
 	 */
 	public function actionView($id=null, $username=null) //same
 	{
+
 		if (isset($id)){
 			$model = $this->loadModel($id);
 		} else if ( isset($username)){
@@ -82,6 +107,12 @@ class LguUserController extends Controller
 		if ($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 
+		$user_type = Yii::app()->session['user_type'];
+		if($user_type!=UserTypeEnum::ADMIN && $user_type!=UserTypeEnum::USER_MAINTENANCE){
+			if($model->username!=Yii::app()->session['username']){
+				throw new CHttpException(403,'');
+			}
+		}
 		$this->render('view',array(
 			'model'=>$model,
 		));
@@ -94,12 +125,12 @@ class LguUserController extends Controller
 	public function actionCreate()
 	{
 		$model=new LGU_User;
-
+		$model->scenario='create';
 		if(isset($_POST['LGU_User']))
 		{
 			$model->attributes=$_POST['LGU_User'];
 
-			$checker = LGU_User::model()->findByPk($model->username);
+			$checker = LGU_User::model()->findByAttributes(array('username'=>$model->username,));
 			$checker2 = CitizenUser::model()->findByAttributes(array('username'=>$model->username,));
 			if($checker == null && $checker2==null){
 				if($model->password == $model->_verifyPassword){
@@ -110,29 +141,32 @@ class LguUserController extends Controller
 					}else{
 						//$model->app_status = AppStatusEnum::PENDING;
 						$model->password = $hasher1;
-
-						if($model->userType_temp == 'ADMIN'){
-							$model->user_type = 1;
-						} else if($model->userType_temp == 'USER_MAINTENANCE'){
-							$model->user_type = 2;
-						} else if($model->userType_temp == 'PERMIT_MAINTENANCE'){
-							$model->user_type = 3;
-						} else {
-							$model->user_type = 4;
+						if(Yii::app()->session['user_type'] == UserTypeEnum::USER_MAINTENANCE || Yii::app()->session['user_type'] == UserTypeEnum::ADMIN) {
+							if($model->userType_temp == 'ADMIN'){
+								$model->user_type = 1;
+							} else if($model->userType_temp == 'USER_MAINTENANCE'){
+								$model->user_type = 2;
+							} else if($model->userType_temp == 'PERMIT_MAINTENANCE'){
+								$model->user_type = 3;
+							} else {
+								$model->user_type = 4;
+							}
 						}
 						$model->create_dt = new CDbExpression('NOW()');
 						$model->created_by = Yii::app()->session['username'];
-						if($model->save()){
-							Yii::app()->user->setFlash('success','LGU User Account successfully created.');
-							$this->redirect(array('view','id'=>$model->id));
+						try{
+							if($model->save()){
+								Yii::app()->user->setFlash('success','LGU User Account successfully created.');
+								$this->redirect(array('view','id'=>$model->id));
+							}
+						}catch(Exception $e){
+							$this->redirect(array('site/error',$e->getMessage(),$e->getCode()));
 						}
 					}
 				}else{
-					//$this->redirect(array('site/password not match'));
 					Yii::app()->user->setFlash('error','Password does not match.');
 				}
 			}else{
-				//$this->redirect(array('site/duplicatedetected'));
 				Yii::app()->user->setFlash('error','Username already exist.');
 			}
 		}
@@ -153,6 +187,13 @@ class LguUserController extends Controller
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
+
+		$user_type = Yii::app()->session['user_type'];
+		if($user_type!=UserTypeEnum::ADMIN && $user_type!=UserTypeEnum::USER_MAINTENANCE){
+			if($model->username!=Yii::app()->session['username']){
+				throw new CHttpException(403,'');
+			}
+		}
 
 		if(isset($_POST['LGU_User']))
 		{
@@ -202,10 +243,15 @@ class LguUserController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('LGU_User');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+		$user_type = Yii::app()->session['user_type'];
+		if($user_type!=UserTypeEnum::ADMIN && $user_type!=UserTypeEnum::USER_MAINTENANCE){
+			$this->redirect(array('view','id'=>Yii::app()->session['user_id']));
+		}else{
+			$dataProvider=new CActiveDataProvider('LGU_User');
+			$this->render('index',array(
+				'dataProvider'=>$dataProvider,
+			));
+		}
 	}
 
 	/**
@@ -233,14 +279,6 @@ class LguUserController extends Controller
 		$model->username = Yii::app()->session['username'];
 		$model_checker = $this->loadModelByUsername(Yii::app()->session['username']);
 		$model->scenario='change_password';
-		// uncomment the following code to enable ajax-based validation
-		/*
-		 if(isset($_POST['ajax']) && $_POST['ajax']==='citizen-user-change_password-form')
-		 {
-		 echo CActiveForm::validate($model);
-		 Yii::app()->end();
-		 }
-		 */
 
 		if(isset($_POST['LGU_User']))
 		{

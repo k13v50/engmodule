@@ -47,11 +47,14 @@ class LGU_User extends UniqidActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('tin, username, password, _verifyPassword, firstName, lastName, employee_no, position', 'required', 'on'=>'insert'),
+			array('tin, username, password, _verifyPassword, firstName, lastName, employee_no, position', 'required', 'on'=>'create'),
 			array('tin, firstName, lastName, employee_no, position', 'required', 'on'=>'update'),
-			array('password, username', 'length', 'max'=>40),
-			array('employee_no, firstName, middleName, lastName, position', 'length', 'max'=>25),
-			array('civil_status, tin, gender', 'length', 'max'=>50),
+			array('username', 'length', 'max'=>15, 'min'=>7),
+			array('password', 'length', 'max'=>64, 'min'=>7),
+			array('employee_no, firstName, lastName, position', 'length', 'max'=>25),
+			array('middleName','length', 'max'=>20),
+			array('civil_status, gender', 'length', 'max'=>50),
+			array('tin', 'length', 'max'=>15, 'min'=>12),
 			array('verifyCode', 'captcha', 'allowEmpty'=>!CCaptcha::checkRequirements(),'on'=>'insert'),
 			//array for safe variables
 			array('userType_temp, newPassword, verifyNewPassword, update_dt, updated_by, created_by','safe'),

@@ -64,21 +64,50 @@ $this->menu=array(
 		'total_trans_cap',
 		'total_gen_cap',
 		'requested_by',
-		array(
+		/* array(
 				'name'=>'request_date',
-				'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:ss a',$model->request_date),
-		),
+				'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:mm:ss a',$model->request_date),
+		), */
+		'request_date',
 		'updated_by',
-		array(
+		/* array(
 				'name'=>'update_date',
-				'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:ss a',$model->update_date),
-		),
+				'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:mm:ss a',$model->update_date),
+		), */
+		'update_date',
 		'approved_by',
 		'approved_by_position',
-		array(
+		/* array(
 				'name'=>'approval_date',
-				'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:ss a',$model->approval_date),
-		),
+				'value'=>Yii::app()->dateFormatter->format('MMM dd, yyyy hh:mm:ss a',$model->approval_date),
+		), */
+		'approval_date',
 		'remarks',
 	),
 )); ?>
+<br/>
+<?php
+
+$criteria=new CDbCriteria(array(
+		'order'=>'stamp DESC',
+));
+
+$criteria->addCondition("model_id = '".$model->id."' and model='ElectricalInstallationsPermit'");
+
+$this->widget('zii.widgets.grid.CGridView', array(
+    'id'=>'title-grid',
+    'dataProvider'=>new CActiveDataProvider('AuditTrail', array(
+    	'criteria'=>$criteria,
+        'pagination'=>array(
+            'pageSize'=>20,
+        )
+    )),
+    'columns'=>array(
+        'action',
+    	'field',
+        'old_value',
+        'new_value',
+    	'stamp',
+    ),
+));
+?>

@@ -52,23 +52,30 @@ class CitizenUser extends UniqidActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			//array('tin, username, password, _verifyPassword, firstName, lastName, addr_city_mun, email_add', 'required', 'on'=>'create'),
-			array('tin, username, password, _verifyPassword, firstName, lastName', 'required', 'on'=>'create'),
-			array(' app_status', 'numerical', 'integerOnly'=>true),
-			array('id', 'length', 'max'=>64),
-			array('education, updated_by', 'length', 'max'=>75),
-			array('employment_info, email_add', 'length', 'max'=>100),
-			array('firstName, middleName, lastName, addr_street, addr_brgy, addr_city_mun, addr_num', 'length', 'max'=>25),
+			//field validations
+			array('password', 'length', 'max'=>64, 'min'=>7),
+			array('username', 'length', 'max'=>15, 'min'=>7),
+			array('firstName,lastName', 'length', 'max'=>25),
+			array('middleName,addr_num', 'length', 'max'=>20),
+			array('addr_street,addr_brgy,addr_city_mun,email_add','length', 'max'=>50),
+			array('tin', 'length','max'=>15, 'min'=>12),
+			array('employment_info,education','length', 'max'=>75),
+			array('mobile_num','length','max'=>13),
+
+			//required fields
+			array('tin,username, password,_verifyPassword,firstName,lastName,addr_num,addr_street,addr_brgy,addr_city_mun,email_add,mobile_num', 'required', 'on'=>'create'),
+			array('firstName,lastName,addr_num,addr_street,addr_brgy,addr_city_mun,email_add,mobile_num', 'required', 'on'=>'update'),
+			//scenario
+			array('verifyCode', 'captcha', 'allowEmpty'=>!CCaptcha::checkRequirements(), 'on'=>'create'),
 			array('_verifyPassword', 'length', 'max'=>40, 'on'=>'create'),
-			array('password', 'length', 'max'=>40),
-			array('username', 'length', 'max'=>50),
+			array('password, newPassword, verifyNewPassword', 'required', 'on'=>'change_password'),
 			// array for setting of safe variables
 			array('create_dt, update_dt, approval_dt, approved_by, mobile_num, newPassword, verifyNewPassword', 'safe'),
-			array('verifyCode', 'captcha', 'allowEmpty'=>!CCaptcha::checkRequirements(), 'on'=>'create'),
+
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, education, employment_info, tin, firstName, middleName, lastName, password, addr_street, addr_brgy, addr_city_mun, addr_num, username, app_status, email_add, create_dt, update_dt, updated_by, approval_dt, approved_by, mobile_num', 'safe', 'on'=>'search'),
-			array('password, newPassword, verifyNewPassword', 'required', 'on'=>'change_password'),
+			array('id, education, employment_info, tin, firstName, middleName, lastName, addr_street, addr_brgy, addr_city_mun, addr_num, username, app_status, email_add, create_dt, update_dt, updated_by, approval_dt, approved_by, mobile_num', 'safe', 'on'=>'search'),
+
 		);
 	}
 
@@ -101,7 +108,6 @@ class CitizenUser extends UniqidActiveRecord
 			'newPassword' => 'New Password',
 			'verifyNewPassword' => 'Verify New Password',
 			'addr_num' => 'Address Number',
-			'addr_street' => 'Verify Password',
 			'addr_street' => 'Street',
 			'addr_brgy' => 'Barangay',
 			'addr_city_mun' => 'City/Municipality',

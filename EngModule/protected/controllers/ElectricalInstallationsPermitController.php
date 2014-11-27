@@ -31,33 +31,60 @@ class ElectricalInstallationsPermitController extends Controller
 			if($user_type == 0){
 				return array(
 						array('allow',  // allow all users to perform 'index' and 'view' actions
-								'actions'=>array('view','create','update','generatepdf'),
-								'users'=>array('*'),
+								'actions'=>array('index','view','create','update','generatepdf'),
+								'users'=>array('@'),
+						),
+						array('deny',  // deny all users
+								'users'=>array('@'),
 						),
 				);
-			}else{
+			} else if($user_type == UserTypeEnum::ADMIN){
 				return array(
-					array('allow',  // allow all users to perform 'index' and 'view' actions
-						'actions'=>array('index','view','generatepdf','approve_permit','reject_permit','admin'),
-						'users'=>array('*'),
-					),
 					array('allow', // allow authenticated user to perform 'create' and 'update' actions
-						'actions'=>array('create','update'),
+						'actions'=>array('index','captcha','view','update','admin','delete','generatepdf','approve_permit','reject_permit'),
 						'users'=>array('@'),
-					),
-					array('allow', // allow admin user to perform 'admin' and 'delete' actions
-						'actions'=>array('admin','delete'),
-						'users'=>array('admin'),
 					),
 					array('deny',  // deny all users
 						'users'=>array('*'),
 					),
 				);
+			}else if($user_type == UserTypeEnum::USER_MAINTENANCE){
+				return array(
+						array('deny', // allow authenticated user to perform 'create' and 'update' actions
+								'actions'=>array('captcha','index','view','create','update','admin','delete','change_password'),
+								'users'=>array('@'),
+						),
+						array('deny',  // deny all users
+								'users'=>array('*'),
+						),
+				);
+			}else if($user_type == UserTypeEnum::PERMIT_MAINTENANCE){
+				return array(
+						array('allow', // allow authenticated user to perform 'create' and 'update' actions
+								'actions'=>array('index','captcha','view','update','admin','delete','generatepdf','approve_permit','reject_permit'),
+								'users'=>array('@'),
+						),
+						array('deny',  // deny all users
+								'actions'=>array('captcha','create','admin','delete'),
+								'users'=>array('*'),
+						),
+				);
+			}else{
+				return array(
+						array('allow', // allow authenticated user to perform 'create' and 'update' actions
+								'actions'=>array('index','view','generatepdf'),
+								'users'=>array('@'),
+						),
+						array('deny', // allow admin user to perform 'admin' and 'delete' actions
+								'actions'=>array('create','admin','delete'),
+								'users'=>array('*'),
+						),
+				);
 			}
 		}else{
 			return array(
 					array('deny',
-						'actions'=>array('index','create','update','index','view','generatepdf','approve_permit'),
+						'actions'=>array('index','create','update','index','view'),
 						'users'=>array('*'),
 					),
 			);
@@ -97,11 +124,23 @@ class ElectricalInstallationsPermitController extends Controller
 		if(isset($_POST['ElectricalInstallationsPermit']))
 		{
 			$model->attributes=$_POST['ElectricalInstallationsPermit'];
-			$model->request_date = new CDbExpression('NOW()');
-			$model->app_status = PermitAppStatusEnum::PENDING;
-			if($model->save()){
-				Yii::app()->user->setFlash('eiPermitSuccess','Permit Application Successful.');
-				$this->redirect(array('view','id'=>$model->id));
+			//$trans = Yii::app()->db->beginTransaction();
+			try{
+				$model->app_status = PermitAppStatusEnum::PENDING;
+				if($model->save()){
+					Yii::app()->session['permit_id'] = $model->id;
+					$model = $this->loadModel($model->id);
+					Yii::app()->user->setFlash('eiPermitSuccess','Permit Application Successful.');
+					//$this->redirect(array('view','id'=>$model->id));
+					$this->redirect(array('permitrequirements/create_eip','permit_num'=>'EIP'.$model->permit_num));
+				}else{
+					//$this->redirect(array('site/error',404));
+					throw new CHttpException(404,'The requested page does not exist.');
+				}
+				//$trans->commit();
+			}catch (Exception $e){
+				//$trans->rollBack();
+				$this->redirect(array('site/error',$e->getMessage(),$e->getCode()));
 			}
 		}
 
@@ -298,9 +337,9 @@ class ElectricalInstallationsPermitController extends Controller
 			$model=ElectricalInstallationsPermit::model()->findByAttributes(array('id'=>$id,'app_status'=>PermitAppStatusEnum::PENDING));
 		} else if ( isset($permit_num)){
 			$model=ElectricalInstallationsPermit::model()->findByAttributes(array('permit_num'=>$permit_num,'app_status'=>PermitAppStatusEnum::PENDING));
-		}
-		if($model===null)
+		}else{
 			throw new CHttpException(404,'The requested page does not exist.');
+		}
 		return $model;
 	}
 

@@ -53,9 +53,9 @@ class PlumbingPermit extends UniqidActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('owner_tin, app_status', 'numerical', 'integerOnly'=>true),
+			array('app_status', 'numerical', 'integerOnly'=>true),
 			array('id', 'length', 'max'=>64),
-			array('bldg_permit_num, owner_fname, owner_mname, owner_lname,owner_phone, tax_dec_num, addr_num, addr_street, addr_brgy, addr_city_mun, loc_lot_num, loc_block_num, loc_tct_num, const_street, const_brgy, const_city_mun', 'length', 'max'=>25),
+			array('owner_tin,bldg_permit_num, owner_fname, owner_mname, owner_lname,owner_phone, tax_dec_num, addr_num, addr_street, addr_brgy, addr_city_mun, loc_lot_num, loc_block_num, loc_tct_num, const_street, const_brgy, const_city_mun', 'length', 'max'=>25),
 			array('ownership_form, occupation_type, app_num, updated_by, approved_by, approved_by_position, requested_by', 'length', 'max'=>50),
 			array('work_scope', 'length', 'max'=>200),
 			array('remarks', 'length', 'max'=>1000),

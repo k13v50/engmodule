@@ -38,7 +38,23 @@ class UniqidActiveRecord extends CActiveRecord {
 	{
 		return array(
 				'LoggableBehavior'=>
-				'application.modules.auditTrail.behaviors.LoggableBehavior',
+				array(
+					'class' =>'application.modules.audittrail.behaviors.LoggableBehavior',
+					'dateFormat' => 'Y-m-d H:i:s',
+					'ignored' => array(
+				        'update_dt',
+						'id',
+						'update_by',
+						'update_date',
+						'approved_by',
+						'approve_dt',
+						'updated_by',
+						'update_dt',
+						'create_dt',
+						'requested_by',
+						'request_date'
+				    )
+				),
 		);
 	}
 }

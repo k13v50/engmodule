@@ -38,23 +38,47 @@ class BuildingPermitController extends Controller
 								'users'=>array('@'),
 						),
 				);
-			}else{
+			} else if($user_type == UserTypeEnum::ADMIN){
 				return array(
-					array('allow',  // allow all users to perform 'index' and 'view' actions
-						'actions'=>array('index','view','generatepdf','delete','approve_permit','reject_permit','admin'),
-						'users'=>array('@'),
-					),
 					array('allow', // allow authenticated user to perform 'create' and 'update' actions
-						'actions'=>array('create','update','delete'),
+						'actions'=>array('index','captcha','view','create','update','admin','delete','generatepdf','approve_permit','reject_permit'),
 						'users'=>array('@'),
-					),
-					array('allow', // allow admin user to perform 'admin' and 'delete' actions
-						'actions'=>array('admin'),
-						'users'=>array('admin'),
 					),
 					array('deny',  // deny all users
 						'users'=>array('*'),
 					),
+				);
+			}else if($user_type == UserTypeEnum::USER_MAINTENANCE){
+				return array(
+						array('deny', // allow authenticated user to perform 'create' and 'update' actions
+								'actions'=>array('captcha','index','view','create','update','admin','delete','change_password'),
+								'users'=>array('@'),
+						),
+						array('deny',  // deny all users
+								'users'=>array('*'),
+						),
+				);
+			}else if($user_type == UserTypeEnum::PERMIT_MAINTENANCE){
+				return array(
+						array('allow', // allow authenticated user to perform 'create' and 'update' actions
+								'actions'=>array('index','captcha','view','create','update','admin','delete','generatepdf','approve_permit','reject_permit'),
+								'users'=>array('@'),
+						),
+						array('deny',  // deny all users
+								'actions'=>array('captcha','create','admin','delete'),
+								'users'=>array('*'),
+						),
+				);
+			}else{
+				return array(
+						array('allow', // allow authenticated user to perform 'create' and 'update' actions
+								'actions'=>array('index','view','generatepdf'),
+								'users'=>array('@'),
+						),
+						array('deny', // allow admin user to perform 'admin' and 'delete' actions
+								'actions'=>array('create','admin','delete'),
+								'users'=>array('*'),
+						),
 				);
 			}
 		}else{
@@ -98,10 +122,11 @@ class BuildingPermitController extends Controller
 	 */
 	public function actionCreate()
 	{
+
 		$model=new BuildingPermit;
 		$eip = new ElectricalInstallationsPermit;
 		$pp = new PlumbingPermit;
-
+		$model->scenario='create';
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -149,6 +174,7 @@ class BuildingPermitController extends Controller
 					$pp->owner_mname = $model->owner_mname;
 					$pp->owner_lname = $model->owner_lname;
 					$pp->owner_tin = $model->owner_tin;
+					$pp->owner_phone = $model->owner_phone;
 					$pp->ownership_form = $model->ownership_form;
 					$pp->tax_dec_num = $model->tax_dec_num;
 					$pp->work_scope = $model->work_scope;
@@ -167,12 +193,13 @@ class BuildingPermitController extends Controller
 					$pp->request_date = $model->request_date;
 					$pp->requested_by = $model->requested_by;
 					if($eip->save() && $pp->save()){
+						$trans->commit();
 						Yii::app()->user->setFlash('bldgPermitSuccess','Permit Application Successful.');
 						$this->redirect(array('permitrequirements/create','permit_num'=>$model->permit_num));
 					}else{
-						$this->redirect(array('site/error',404));
+						throw new CHttpException(404,'The requested page does not exist.');
 					}
-					$trans->commit();
+
 				}
 			}catch(Exception $e){
 				$trans->rollBack();
@@ -199,7 +226,7 @@ class BuildingPermitController extends Controller
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
+		$model->scenario='update';
 		if(isset($_POST['BuildingPermit']))
 		{
 			$model->attributes=$_POST['BuildingPermit'];
@@ -227,7 +254,7 @@ class BuildingPermitController extends Controller
 		$model = $this->loadModelPending($id,$permit_num);
 		if ($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
-
+		$model->scenario='approve_reject';
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -259,7 +286,7 @@ class BuildingPermitController extends Controller
 		$model = $this->loadModelPending($id,$permit_num);
 		if ($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
-
+		$model->scenario='approve_reject';
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 

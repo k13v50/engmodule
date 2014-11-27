@@ -52,10 +52,27 @@ $this->menu=array(
 	),
 )); ?>
 
-<?php /*$this->widget(
-    'application.modules.auditTrail.widgets.portlets.ShowAuditTrail',
-    array(
-        'model' => $model,
-    )
-);*/
+<?php
+$criteria=new CDbCriteria(array(
+		'order'=>'stamp DESC',
+));
+
+$criteria->addCondition("model_id = '".$model->id."' and model='LGU_User'");
+
+$this->widget('zii.widgets.grid.CGridView', array(
+		'id'=>'title-grid',
+		'dataProvider'=>new CActiveDataProvider('AuditTrail', array(
+				'criteria'=>$criteria,
+				'pagination'=>array(
+						'pageSize'=>100,
+				)
+		)),
+		'columns'=>array(
+				'action',
+				'field',
+				'old_value',
+				'new_value',
+				'stamp',
+		),
+));
 ?>

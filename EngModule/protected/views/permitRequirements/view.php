@@ -25,15 +25,40 @@ $this->menu=array(
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
-		'req_file1',
+		array(
+			'name'=>'req_file1',
+			'type'=>'raw',
+			'value'=>$model->req_file1.CHtml::link('(view image)', array('view_file', 'file'=>$model->id.'/'.$model->req_file1)),
+		),
 		'req_file1_type',
-		'req_file2',
+		array(
+			'name'=>'req_file2',
+			'type'=>'raw',
+			'value'=>$model->req_file2.CHtml::link('(view image)', array('view_file', 'file'=>$model->id.'/'.$model->req_file2)),
+		),
 		'req_file2_type',
-		'req_file3',
+		array(
+				'name'=>'req_file3',
+				'type'=>'raw',
+				'value'=>$model->req_file3.CHtml::link('(view image)', array('view_file', 'file'=>$model->id.'/'.$model->req_file3)),
+		),
 		'req_file3_type',
-		'req_file4',
+		array(
+				'name'=>'req_file4',
+				'type'=>'raw',
+				'value'=>$model->req_file4.CHtml::link('(view image)', array('view_file', 'file'=>$model->id.'/'.$model->req_file4)),
+		),
 		'req_file4_type',
-		'req_file5',
+		array(
+				'name'=>'req_file5',
+				'type'=>'raw',
+				'value'=>$model->req_file5.CHtml::link('(view image)', array('view_file', 'file'=>$model->id.'/'.$model->req_file5)),
+		),
 		'req_file5_type',
 	),
 )); ?>
+
+<br/>
+<?php
+//echo CHtml::image(Yii::app()->request->baseUrl.'/uploads/0C248D94670CEFAC1B0AC2D1435B7674/1416927420_architectural_plan.jpg', 'test');
+?>

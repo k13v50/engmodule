@@ -3,7 +3,6 @@
 /* @var $model PermitRequirements */
 
 $this->breadcrumbs=array(
-	'Building Permits'=>array('buildingpermit/index'),
 	'Upload Permit Requirements',
 );
 

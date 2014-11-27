@@ -27,22 +27,79 @@
 	</div><!-- header -->
 
 	<div id="mainmenu">
-		<?php $this->widget('zii.widgets.CMenu',array(
-				'items'=>array(
-				array('label'=>'Home', 'url'=>array('/site/index')),
-				array('label'=>'Citizen User Management', 'url'=>array('/citizenuser'), 'visible'=>(!(Yii::app()->session['user_type'] == 0) && !(Yii::app()->user->isGuest))),
-				array('label'=>'Citizen User', 'url'=>array('/citizenuser'), 'visible'=>(!(Yii::app()->session['user_type'] > 0) && !(Yii::app()->user->isGuest))),
-				array('label'=>'LGU User Mangament', 'url'=>array('/LguUser'), 'visible'=>(!(Yii::app()->session['user_type'] == 0) && !(Yii::app()->user->isGuest))),
-				//initial menu for permits
-				array('label'=>'Building Permit', 'url'=>array('/buildingpermit'), 'visible'=>!Yii::app()->user->isGuest),
-				//removing menu for electrical permit
-				array('label'=>'Electrical Installation Permit', 'url'=>array('/electricalInstallationsPermit'), 'visible'=>!Yii::app()->user->isGuest),
-				array('label'=>'Plumbing Permit', 'url'=>array('/plumbingpermit'), 'visible'=>!Yii::app()->user->isGuest),
-				array('label'=>'Register','url'=>array('/citizenuser/create'), 'visible'=>Yii::app()->user->isGuest),
-				array('label'=>'Citizen Login','url'=>array('/site/citizenLogin'), 'visible'=>Yii::app()->user->isGuest),
-				array('label'=>'LGU Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
-				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
-		))); ?>
+<?php
+if(!Yii::app()->user->isGuest){
+$userType = Yii::app()->session['user_type'];
+if($userType==0){
+	$this->widget('zii.widgets.CMenu',array(
+			'items'=>array(
+					array('label'=>'Home', 'url'=>array('/site/index')),
+					array('label'=>'Citizen User', 'url'=>array('/citizenuser')),
+					array('label'=>'Building Permit', 'url'=>array('/buildingpermit'), 'visible'=>!Yii::app()->user->isGuest),
+					array('label'=>'Electrical Installation Permit', 'url'=>array('/electricalinstallationspermit'), 'visible'=>!Yii::app()->user->isGuest),
+					array('label'=>'Plumbing Permit', 'url'=>array('/plumbingpermit'), 'visible'=>!Yii::app()->user->isGuest),
+					array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
+	)));
+}else if($userType==UserTypeEnum::ADMIN){
+	$this->widget('zii.widgets.CMenu',array(
+			'items'=>array(
+					array('label'=>'Home', 'url'=>array('/site/index')),
+					array('label'=>'Citizen User Management', 'url'=>array('/citizenuser')),
+					array('label'=>'LGU User Mangament', 'url'=>array('/LguUser')),
+					array('label'=>'Building Permit', 'url'=>array('/buildingpermit'), 'visible'=>!Yii::app()->user->isGuest),
+					array('label'=>'Electrical Installation Permit', 'url'=>array('/electricalinstallationspermit'), 'visible'=>!Yii::app()->user->isGuest),
+					array('label'=>'Plumbing Permit', 'url'=>array('/plumbingpermit'), 'visible'=>!Yii::app()->user->isGuest),
+					array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
+
+			)));
+
+}else if($userType==UserTypeEnum::PERMIT_MAINTENANCE){
+
+	$this->widget('zii.widgets.CMenu',array(
+			'items'=>array(
+					array('label'=>'Home', 'url'=>array('/site/index')),
+					array('label'=>'LGU User Mangament', 'url'=>array('/LguUser'), 'visible'=>(!(Yii::app()->session['user_type'] == 0) && !(Yii::app()->user->isGuest))),
+					array('label'=>'Building Permit', 'url'=>array('/buildingpermit'), 'visible'=>!Yii::app()->user->isGuest),
+					array('label'=>'Electrical Installation Permit', 'url'=>array('/electricalinstallationspermit'), 'visible'=>!Yii::app()->user->isGuest),
+					array('label'=>'Plumbing Permit', 'url'=>array('/plumbingpermit'), 'visible'=>!Yii::app()->user->isGuest),
+					array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
+
+			)));
+
+}else if($userType==UserTypeEnum::USER_MAINTENANCE){
+	$this->widget('zii.widgets.CMenu',array(
+			'items'=>array(
+					array('label'=>'Home', 'url'=>array('/site/index')),
+					array('label'=>'Citizen User Management', 'url'=>array('/citizenuser'), 'visible'=>(!(Yii::app()->session['user_type'] == 0) && !(Yii::app()->user->isGuest))),
+					array('label'=>'LGU User Mangament', 'url'=>array('/LguUser'), 'visible'=>(!(Yii::app()->session['user_type'] == 0) && !(Yii::app()->user->isGuest))),
+					array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
+
+			)));
+
+}else{
+	$this->widget('zii.widgets.CMenu',array(
+			'items'=>array(
+					array('label'=>'Home', 'url'=>array('/site/index')),
+					array('label'=>'Citizen User Management', 'url'=>array('/citizenuser'), 'visible'=>(!(Yii::app()->session['user_type'] == 0) && !(Yii::app()->user->isGuest))),
+					array('label'=>'LGU User Mangament', 'url'=>array('/LguUser'), 'visible'=>(!(Yii::app()->session['user_type'] == 0) && !(Yii::app()->user->isGuest))),
+					//initial menu for permits
+					array('label'=>'Building Permit', 'url'=>array('/buildingpermit'), 'visible'=>!Yii::app()->user->isGuest),
+					array('label'=>'Electrical Installation Permit', 'url'=>array('/electricalinstallationspermit'), 'visible'=>!Yii::app()->user->isGuest),
+					array('label'=>'Plumbing Permit', 'url'=>array('/plumbingpermit'), 'visible'=>!Yii::app()->user->isGuest),
+					array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
+
+			)));
+}
+
+}else{
+$this->widget('zii.widgets.CMenu',array(
+		'items'=>array(
+		array('label'=>'Home', 'url'=>array('/site/index')),
+		array('label'=>'Register','url'=>array('/citizenuser/create'), 'visible'=>Yii::app()->user->isGuest),
+		array('label'=>'Citizen Login','url'=>array('/site/citizenLogin'), 'visible'=>Yii::app()->user->isGuest),
+		array('label'=>'LGU Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
+)));
+}?>
 	</div><!-- mainmenu -->
 	<?php if(isset($this->breadcrumbs)):?>
 		<?php $this->widget('zii.widgets.CBreadcrumbs', array(

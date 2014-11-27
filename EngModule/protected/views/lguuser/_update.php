@@ -21,14 +21,12 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-	<?php if(Yii::app()->session['username'] != $model->username) {?>
+	<?php if(Yii::app()->session['user_type'] == UserTypeEnum::USER_MAINTENANCE || Yii::app()->session['user_type'] == UserTypeEnum::ADMIN) {?>
 	<div class="row">
 		<?php echo $form->labelEx($model,'user_type'); ?>
         <?php echo $form->dropDownList($model, 'userType_temp', $model->getRoleOptions()); ?>
 	</div>
 	<?php }?>
-
-	<h2>User Information</h2>
 
 	<h3> Name: </h3>
 	<div class="row">

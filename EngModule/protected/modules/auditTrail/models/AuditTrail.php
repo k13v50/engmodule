@@ -32,7 +32,10 @@ class AuditTrail extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'tbl_audit_trail';
+		/* if ( isset(Yii::app()->params['AuditTrail']) && isset(Yii::app()->params['AuditTrail']['table']) )
+		    return Yii::app()->params['AuditTrail']['table'];
+		else */
+		    return 'tbl_audit_trail';
 	}
 
 	/**
@@ -43,10 +46,10 @@ class AuditTrail extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('action, model, field, stamp, model_id', 'required'),
+			array('action, model, stamp, model_id', 'required'),
 			array('action', 'length', 'max'=>255),
 			array('model', 'length', 'max'=>255),
-			array('field', 'length', 'max'=>1000),
+			array('field', 'length', 'max'=>255),
 			array('model_id', 'length', 'max'=>255),
 			array('user_id', 'length', 'max'=>255),
 			// The following rule is used by search().
@@ -63,6 +66,7 @@ class AuditTrail extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'user' => array(self::BELONGS_TO, 'User', 'user_id'),
 		);
 	}
 
@@ -72,17 +76,48 @@ class AuditTrail extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'old_value' => 'Old Value',
-			'new_value' => 'New Value',
-			'action' => 'Action',
-			'model' => 'Model',
-			'field' => 'Field',
-			'stamp' => 'Stamp',
-			'user_id' => 'User',
-			'model_id' => 'Model',
+			'id' => Yii::t('app', 'ID'),
+			'old_value' => Yii::t('app', 'Old Value'),
+			'new_value' => Yii::t('app', 'New Value'),
+			'action' => Yii::t('app', 'Action'),
+			'model' => Yii::t('app', 'Type'),
+			'field' => Yii::t('app', 'Field'),
+			'stamp' => Yii::t('app', 'Stamp'),
+			'user_id' => Yii::t('app', 'User'),
+			'model_id' => Yii::t('app', 'Model ID'),
 		);
 	}
+
+	function getParent(){
+		$model_name = $this->model;
+		return $model_name::model();
+	}
+
+    function findModel(){
+        return $this->getParent()->findByPK($this->model_id);
+    }
+
+    function getOldValue(){
+        $model = $this->findModel();
+        $relations = $model->relations();
+        foreach($relations as $name=>$relation){
+            if ($relation[2] == $this->field){
+                return $relation[1]::model()->findByPK($this->old_value);
+            }
+        }
+        return $this->old_value;
+    }
+
+    function getNewValue(){
+        $model = $this->findModel();
+        $relations = $model->relations();
+        foreach($relations as $name=>$relation){
+            if ($relation[2] == $this->field){
+                return $relation[1]::model()->findByPK($this->new_value);
+            }
+        }
+        return $this->new_value;
+    }
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.

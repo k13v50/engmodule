@@ -28,7 +28,7 @@ class PermitRequirementsController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','create','update'),
+				'actions'=>array('index','view','create','update','create_eip','view_file'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -78,7 +78,7 @@ class PermitRequirementsController extends Controller
 		if(isset($_POST['PermitRequirements']))
 		{
 			$model->attributes=$_POST['PermitRequirements'];
-			$path = Yii::app()->basePath . '../uploads/';
+			$path = $path = Yii::app()->basePath . '../../uploads/';;
 			$model->permit_num = $permit_num;
 
 			$uploadedFile1=CUploadedFile::getInstance($model,'req_file1');
@@ -229,6 +229,10 @@ class PermitRequirementsController extends Controller
 		));
 	}
 
+	public function actionView_file($file){
+		$this->render('view_file',array('file'=>$file
+		));
+	}
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
